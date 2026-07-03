@@ -1,0 +1,43 @@
+# ==========================================================================
+# .gitignore — files git should NEVER track.
+# Two big reasons things go here:
+#   (1) SECRETS must never enter history,
+#   (2) generated/downloaded junk (caches, dependencies) is huge & rebuildable.
+# NOTE: comments must be on their OWN line. Inline "# ..." after a pattern
+#       does NOT work — it becomes part of the pattern.
+# ==========================================================================
+
+# --- Secrets & environment variables (reason #1: never expose keys) ---
+.env
+.env.*
+# keep the EXAMPLE template (has no real secrets); "!" un-ignores it
+!.env.example
+*.pem
+*.key
+
+# --- Python / FastAPI backend (reason #2: rebuildable junk) ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Node / React frontend (reason #2) ---
+node_modules/
+dist/
+build/
+*.local
+
+# --- Editors & OS noise ---
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# --- Logs ---
+*.log
+npm-debug.log*
