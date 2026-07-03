@@ -3,3 +3,8 @@
 
 fastapi          # the web framework (defines routes/endpoints)
 uvicorn[standard]  # the ASGI server that runs the app; [standard] adds fast extras
+
+# --- Step 4: database ---
+sqlalchemy       # ORM: work with DB rows as Python objects
+psycopg[binary]  # the PostgreSQL driver SQLAlchemy uses to talk to Postgres
+pydantic-settings  # loads/validates settings from .env into a typed object
