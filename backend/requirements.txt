@@ -1,0 +1,5 @@
+# Backend dependencies. Install with:  pip install -r requirements.txt
+# Keeping this LEAN — we add packages only when a roadmap step needs them.
+
+fastapi          # the web framework (defines routes/endpoints)
+uvicorn[standard]  # the ASGI server that runs the app; [standard] adds fast extras
