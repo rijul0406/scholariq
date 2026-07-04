@@ -15,8 +15,14 @@ class Settings(BaseSettings):
     # in .env fills this in. No default => it's REQUIRED.
     database_url: str
 
-    # Signs JWT auth tokens (used in step 5). Has a dev default for now.
+    # Signs JWT auth tokens. Has a dev default for now.
     jwt_secret: str = "dev-only-change-me-later"
+
+    # Which algorithm signs the JWT. HS256 = symmetric (same secret signs+verifies).
+    jwt_algorithm: str = "HS256"
+
+    # How long a login token stays valid before the user must log in again.
+    access_token_expire_minutes: int = 60
 
     # Tell pydantic-settings to read backend/.env.
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")

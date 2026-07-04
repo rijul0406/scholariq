@@ -8,3 +8,9 @@ uvicorn[standard]  # the ASGI server that runs the app; [standard] adds fast ext
 sqlalchemy       # ORM: work with DB rows as Python objects
 psycopg[binary]  # the PostgreSQL driver SQLAlchemy uses to talk to Postgres
 pydantic-settings  # loads/validates settings from .env into a typed object
+
+# --- Step 5: authentication ---
+bcrypt           # hashes passwords (one-way, salted, deliberately slow)
+pyjwt            # creates & verifies signed JWT tokens
+email-validator  # lets Pydantic validate EmailStr fields
+python-multipart  # lets FastAPI read form data (OAuth2 login form)
