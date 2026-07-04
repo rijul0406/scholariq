@@ -50,3 +50,56 @@ export async function getMe(token: string): Promise<User> {
   if (!res.ok) throw new Error('Not authenticated')
   return res.json()
 }
+
+// ----- Study sessions -------------------------------------------------------
+
+// Matches SessionRead in the backend.
+export interface StudySession {
+  id: number
+  user_id: number
+  subject: string
+  duration_minutes: number
+  notes: string | null
+  created_at: string
+}
+
+// Fields the client sends when creating a session.
+export interface SessionInput {
+  subject: string
+  duration_minutes: number
+  notes?: string | null
+}
+
+// Small helper: every session call needs the auth header, so build it once.
+function authHeaders(token: string): HeadersInit {
+  return { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
+}
+
+export async function listSessions(token: string): Promise<StudySession[]> {
+  const res = await fetch(`${API_URL}/sessions`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to load sessions')
+  return res.json()
+}
+
+export async function createSession(
+  token: string,
+  data: SessionInput,
+): Promise<StudySession> {
+  const res = await fetch(`${API_URL}/sessions`, {
+    method: 'POST',
+    headers: authHeaders(token),
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) throw new Error('Failed to create session')
+  return res.json()
+}
+
+export async function deleteSession(token: string, id: number): Promise<void> {
+  const res = await fetch(`${API_URL}/sessions/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to delete session')
+}

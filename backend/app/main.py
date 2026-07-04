@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.auth.router import router as auth_router
+from app.sessions.router import router as sessions_router
 from app.database import Base, engine
 
 # Importing models registers them on Base.metadata so create_all knows about
@@ -32,8 +33,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount the auth endpoints (/auth/register, /auth/login, /auth/me).
+# Mount feature routers.
 app.include_router(auth_router)
+app.include_router(sessions_router)
 
 
 @app.get("/health")
