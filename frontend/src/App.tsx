@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { DashboardPage } from './pages/DashboardPage'
+import { GoalsPage } from './pages/GoalsPage'
 import { ProtectedRoute } from './components/ProtectedRoute'
 
 // The URL -> page map. <Routes> renders whichever <Route> matches the URL.
@@ -11,12 +12,20 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      {/* /dashboard is wrapped in ProtectedRoute, so it requires login. */}
+      {/* Protected pages: require login (ProtectedRoute redirects otherwise). */}
       <Route
         path="/dashboard"
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/goals"
+        element={
+          <ProtectedRoute>
+            <GoalsPage />
           </ProtectedRoute>
         }
       />

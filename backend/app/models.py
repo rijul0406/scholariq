@@ -36,6 +36,11 @@ class User(Base):
         back_populates="user", cascade="all, delete-orphan"
     )
 
+    # Same idea for goals.
+    goals: Mapped[list["Goal"]] = relationship(
+        back_populates="user", cascade="all, delete-orphan"
+    )
+
     def __repr__(self) -> str:
         return f"<User id={self.id} email={self.email!r}>"
 
@@ -67,3 +72,29 @@ class StudySession(Base):
 
     def __repr__(self) -> str:
         return f"<StudySession id={self.id} subject={self.subject!r} user_id={self.user_id}>"
+
+
+class Goal(Base):
+    __tablename__ = "goals"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), index=True
+    )
+
+    title: Mapped[str] = mapped_column(String(255))
+    target_minutes: Mapped[int] = mapped_column()
+
+    # NEW vs StudySession: a boolean flag. default=False sets it in Python;
+    # server_default keeps existing/DB-level inserts consistent.
+    is_completed: Mapped[bool] = mapped_column(default=False, server_default="false")
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+
+    user: Mapped["User"] = relationship(back_populates="goals")
+
+    def __repr__(self) -> str:
+        return f"<Goal id={self.id} title={self.title!r} done={self.is_completed}>"

@@ -103,3 +103,61 @@ export async function deleteSession(token: string, id: number): Promise<void> {
   })
   if (!res.ok) throw new Error('Failed to delete session')
 }
+
+// ----- Goals ----------------------------------------------------------------
+
+export interface Goal {
+  id: number
+  user_id: number
+  title: string
+  target_minutes: number
+  is_completed: boolean
+  created_at: string
+}
+
+export interface GoalInput {
+  title: string
+  target_minutes: number
+}
+
+export async function listGoals(token: string): Promise<Goal[]> {
+  const res = await fetch(`${API_URL}/goals`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to load goals')
+  return res.json()
+}
+
+export async function createGoal(token: string, data: GoalInput): Promise<Goal> {
+  const res = await fetch(`${API_URL}/goals`, {
+    method: 'POST',
+    headers: authHeaders(token),
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) throw new Error('Failed to create goal')
+  return res.json()
+}
+
+// Partial<> lets callers send just the field(s) they want to change,
+// e.g. updateGoal(token, id, { is_completed: true }).
+export async function updateGoal(
+  token: string,
+  id: number,
+  patch: Partial<GoalInput & { is_completed: boolean }>,
+): Promise<Goal> {
+  const res = await fetch(`${API_URL}/goals/${id}`, {
+    method: 'PUT',
+    headers: authHeaders(token),
+    body: JSON.stringify(patch),
+  })
+  if (!res.ok) throw new Error('Failed to update goal')
+  return res.json()
+}
+
+export async function deleteGoal(token: string, id: number): Promise<void> {
+  const res = await fetch(`${API_URL}/goals/${id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to delete goal')
+}
