@@ -1,0 +1,5 @@
+# Keep these OUT of the frontend image.
+node_modules/
+dist/
+.env
+.env.*

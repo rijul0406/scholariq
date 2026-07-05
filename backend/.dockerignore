@@ -1,0 +1,13 @@
+# Keep these OUT of the backend image.
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Never bake secrets into an image — env vars come from docker-compose instead.
+.env
+
+# Not needed at runtime.
+tests/

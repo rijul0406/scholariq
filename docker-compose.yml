@@ -1,0 +1,45 @@
+# Runs the whole app as three connected containers: db + backend + frontend.
+# Start everything with:  docker compose up --build
+
+services:
+  # --- PostgreSQL database ---
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: scholariq
+      POSTGRES_PASSWORD: scholariq
+      POSTGRES_DB: scholariq
+    volumes:
+      # Persist data on the host so it survives container restarts.
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # backend waits until this passes, so it never starts before the DB is ready.
+      test: ["CMD-SHELL", "pg_isready -U scholariq"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  # --- FastAPI backend ---
+  backend:
+    build: ./backend
+    environment:
+      # Note the host is "db" (the service name), not localhost.
+      DATABASE_URL: postgresql+psycopg://scholariq:scholariq@db:5432/scholariq
+      JWT_SECRET: ${JWT_SECRET:-dev-compose-secret-change-in-prod}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # --- React frontend (built + served by nginx) ---
+  frontend:
+    build: ./frontend
+    ports:
+      # Host 5173 -> nginx port 80 in the container.
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
