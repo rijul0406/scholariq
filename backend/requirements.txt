@@ -14,3 +14,7 @@ bcrypt           # hashes passwords (one-way, salted, deliberately slow)
 pyjwt            # creates & verifies signed JWT tokens
 email-validator  # lets Pydantic validate EmailStr fields
 python-multipart  # lets FastAPI read form data (OAuth2 login form)
+
+# --- Step 14: testing ---
+pytest           # test runner (finds & runs test_* functions)
+httpx            # HTTP client that FastAPI's TestClient uses under the hood
