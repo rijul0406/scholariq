@@ -1,11 +1,18 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { LandingPage } from './pages/LandingPage'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { GoalsPage } from './pages/GoalsPage'
-import { AnalyticsPage } from './pages/AnalyticsPage'
 import { ProtectedRoute } from './components/ProtectedRoute'
+
+// Lazy-load the Analytics page: its charting library (Recharts) is large, so we
+// only download that code when the user actually opens /analytics. This keeps
+// the initial page load small (code-splitting).
+const AnalyticsPage = lazy(() =>
+  import('./pages/AnalyticsPage').then((m) => ({ default: m.AnalyticsPage })),
+)
 
 // The URL -> page map. <Routes> renders whichever <Route> matches the URL.
 function App() {
@@ -37,7 +44,12 @@ function App() {
         path="/analytics"
         element={
           <ProtectedRoute>
-            <AnalyticsPage />
+            {/* Suspense shows a fallback while the lazy chunk downloads. */}
+            <Suspense
+              fallback={<p className="p-8 text-center text-slate-500">Loading…</p>}
+            >
+              <AnalyticsPage />
+            </Suspense>
           </ProtectedRoute>
         }
       />

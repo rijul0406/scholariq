@@ -12,7 +12,7 @@ Load user context
 ↓
 Prompt Builder
 ↓
-Gemini
+Claude (Anthropic)
 ↓
 Structured JSON
 ↓

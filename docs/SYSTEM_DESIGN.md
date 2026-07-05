@@ -15,7 +15,7 @@ JWT
 Architecture:
 React -> REST API -> FastAPI -> PostgreSQL
                             |
-                            +--> AI Service (Gemini)
+                            +--> AI Service (Claude) [deferred]
 
 Future:
 Redis
