@@ -18,6 +18,6 @@ COPY . .
 # Document the port the app listens on.
 EXPOSE 8000
 
-# The command that runs when a container starts. 0.0.0.0 = listen on all
-# interfaces (required inside a container, unlike 127.0.0.1).
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Shell form so ${PORT} is expanded at runtime. Hosting platforms (Render, etc.)
+# set PORT to tell the app which port to bind; locally it defaults to 8000.
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}

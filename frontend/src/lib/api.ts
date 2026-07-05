@@ -2,7 +2,9 @@
 // Keeping all fetch() calls here (not scattered in components) means one place
 // to change the URL, headers, error handling, etc.
 
-const API_URL = 'http://127.0.0.1:8000'
+// In production, set VITE_API_URL to the deployed backend URL at build time.
+// Falls back to the local backend for development.
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://127.0.0.1:8000'
 
 // Shape of a user as the backend returns it (matches UserRead in Python).
 export interface User {

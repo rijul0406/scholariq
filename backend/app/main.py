@@ -10,6 +10,7 @@ from app.auth.router import router as auth_router
 from app.sessions.router import router as sessions_router
 from app.goals.router import router as goals_router
 from app.analytics.router import router as analytics_router
+from app.config import settings
 from app.database import Base, engine
 
 # Importing models registers them on Base.metadata so create_all knows about
@@ -26,10 +27,7 @@ app = FastAPI(title="ScholarIQ API", version="0.1.0")
 # browser. Without this, the browser blocks the cross-origin request.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=settings.cors_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

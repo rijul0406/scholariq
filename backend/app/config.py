@@ -24,6 +24,16 @@ class Settings(BaseSettings):
     # How long a login token stays valid before the user must log in again.
     access_token_expire_minutes: int = 60
 
+    # Which frontend origins the browser may call this API from (CORS).
+    # Comma-separated so we can set it via one env var in production, e.g.
+    # "https://scholariq.vercel.app". Defaults to local dev.
+    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+
+    @property
+    def cors_origins_list(self) -> list[str]:
+        """Split the comma-separated origins into a clean list."""
+        return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+
     # Tell pydantic-settings to read backend/.env.
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
