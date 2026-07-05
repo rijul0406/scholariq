@@ -10,15 +10,13 @@ export function Layout({ children }: { children: ReactNode }) {
 
   // NavLink gives us an `isActive` flag so we can highlight the current page.
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    isActive
-      ? 'font-medium text-indigo-600'
-      : 'text-slate-500 hover:text-slate-800'
+    isActive ? 'font-medium text-white' : 'text-slate-400 hover:text-white'
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="flex items-center justify-between border-b bg-white px-8 py-4">
+    <div className="min-h-screen bg-neutral-950 text-slate-100">
+      <header className="flex items-center justify-between border-b border-neutral-800 bg-black px-8 py-4">
         <div className="flex items-center gap-6">
-          <span className="text-xl font-bold text-indigo-600">ScholarIQ</span>
+          <span className="text-xl font-bold text-white">ScholarIQ</span>
           <nav className="flex gap-4 text-sm">
             <NavLink to="/dashboard" className={linkClass}>
               Sessions
@@ -32,10 +30,10 @@ export function Layout({ children }: { children: ReactNode }) {
           </nav>
         </div>
         <div className="flex items-center gap-4 text-sm">
-          <span className="text-slate-500">{user?.email}</span>
+          <span className="text-slate-400">{user?.email}</span>
           <button
             onClick={logout}
-            className="rounded border border-slate-300 px-3 py-1 hover:bg-slate-100"
+            className="rounded border border-neutral-700 px-3 py-1 text-slate-200 hover:bg-neutral-800"
           >
             Log out
           </button>

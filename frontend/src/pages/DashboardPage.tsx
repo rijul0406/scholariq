@@ -40,8 +40,8 @@ export function DashboardPage() {
   return (
     <Layout>
       <div>
-        <h2 className="text-2xl font-semibold text-slate-800">Study Sessions</h2>
-        <p className="text-sm text-slate-500">
+        <h2 className="text-2xl font-semibold text-slate-100">Study Sessions</h2>
+        <p className="text-sm text-slate-400">
           {sessions.length} session{sessions.length === 1 ? '' : 's'} ·{' '}
           {totalMinutes} minutes total
         </p>
@@ -49,31 +49,29 @@ export function DashboardPage() {
 
       <SessionForm onAdd={handleAdd} />
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-red-400">{error}</p>}
 
       {loading ? (
-        <p className="text-slate-400">Loading…</p>
+        <p className="text-slate-500">Loading…</p>
       ) : sessions.length === 0 ? (
-        <p className="text-slate-400">
-          No sessions yet — add your first one above.
-        </p>
+        <p className="text-slate-500">No sessions yet — add your first one above.</p>
       ) : (
         <ul className="space-y-2">
           {sessions.map((s) => (
             <li
               key={s.id}
-              className="flex items-center justify-between rounded-lg border bg-white p-4"
+              className="flex items-center justify-between rounded-lg border border-neutral-800 bg-neutral-900 p-4"
             >
               <div>
-                <p className="font-medium text-slate-800">{s.subject}</p>
-                <p className="text-sm text-slate-500">
+                <p className="font-medium text-slate-100">{s.subject}</p>
+                <p className="text-sm text-slate-400">
                   {s.duration_minutes} min
                   {s.notes ? ` · ${s.notes}` : ''}
                 </p>
               </div>
               <button
                 onClick={() => handleDelete(s.id)}
-                className="text-sm text-red-500 hover:underline"
+                className="text-sm text-red-400 hover:underline"
               >
                 Delete
               </button>

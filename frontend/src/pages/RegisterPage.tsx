@@ -28,15 +28,15 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-neutral-950 to-black px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm space-y-4 rounded-xl bg-white p-8 shadow"
+        className="w-full max-w-sm space-y-4 rounded-xl border border-neutral-800 bg-neutral-900 p-8 shadow-xl"
       >
-        <h1 className="text-2xl font-bold text-slate-800">Create account</h1>
+        <h1 className="text-2xl font-bold text-slate-100">Create account</h1>
 
         {error && (
-          <p className="rounded bg-red-50 p-2 text-sm text-red-600">{error}</p>
+          <p className="rounded bg-red-950 p-2 text-sm text-red-400">{error}</p>
         )}
 
         <input
@@ -45,7 +45,7 @@ export function RegisterPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full rounded border border-slate-300 p-2"
+          className="w-full rounded border border-neutral-700 bg-neutral-800 p-2 text-slate-100 placeholder-slate-500 focus:border-slate-400 focus:outline-none"
         />
         <input
           type="password"
@@ -54,20 +54,20 @@ export function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={8}
-          className="w-full rounded border border-slate-300 p-2"
+          className="w-full rounded border border-neutral-700 bg-neutral-800 p-2 text-slate-100 placeholder-slate-500 focus:border-slate-400 focus:outline-none"
         />
 
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded bg-indigo-600 p-2 font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+          className="w-full rounded bg-white p-2 font-medium text-neutral-900 transition hover:bg-slate-200 disabled:opacity-50"
         >
           {submitting ? 'Creating…' : 'Create account'}
         </button>
 
-        <p className="text-center text-sm text-slate-500">
+        <p className="text-center text-sm text-slate-400">
           Already have an account?{' '}
-          <Link to="/login" className="text-indigo-600 hover:underline">
+          <Link to="/login" className="text-white hover:underline">
             Log in
           </Link>
         </p>

@@ -1,3 +1,8 @@
 /* Pulls in Tailwind's utility classes + base reset.
    This one line is Tailwind v4's whole setup on the CSS side. */
 @import "tailwindcss";
+
+/* Dark base so there's no white flash/overscroll behind the app. */
+body {
+  background-color: #0a0a0a;
+}
