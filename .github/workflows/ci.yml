@@ -1,0 +1,75 @@
+name: CI
+
+# Run on every push and every pull request.
+on: [push, pull_request]
+
+jobs:
+  # ---- Job 1: run the backend test suite ----
+  backend-tests:
+    runs-on: ubuntu-latest
+
+    # A throwaway Postgres for the tests to use (GitHub's machine has no
+    # Homebrew Postgres). It lives only for this job.
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: scholariq_test
+        ports:
+          - 5432:5432
+        # Don't start tests until the DB is accepting connections.
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      # The app's own engine (import-time create_all) + the test engine both
+      # point at the throwaway DB above.
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/scholariq_test
+      TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/scholariq_test
+      JWT_SECRET: ci-test-secret-not-real-just-long-enough-for-tests
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -v
+
+  # ---- Job 2: make sure the frontend still builds ----
+  frontend-build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
