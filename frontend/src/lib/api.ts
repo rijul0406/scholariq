@@ -161,3 +161,27 @@ export async function deleteGoal(token: string, id: number): Promise<void> {
   })
   if (!res.ok) throw new Error('Failed to delete goal')
 }
+
+// ----- Analytics ------------------------------------------------------------
+
+export interface SubjectStat {
+  subject: string
+  total_minutes: number
+  session_count: number
+}
+
+export interface AnalyticsSummary {
+  total_minutes: number
+  session_count: number
+  goals_total: number
+  goals_completed: number
+  by_subject: SubjectStat[]
+}
+
+export async function getAnalytics(token: string): Promise<AnalyticsSummary> {
+  const res = await fetch(`${API_URL}/analytics/summary`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to load analytics')
+  return res.json()
+}

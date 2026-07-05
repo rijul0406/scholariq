@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.auth.router import router as auth_router
 from app.sessions.router import router as sessions_router
 from app.goals.router import router as goals_router
+from app.analytics.router import router as analytics_router
 from app.database import Base, engine
 
 # Importing models registers them on Base.metadata so create_all knows about
@@ -38,6 +39,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(sessions_router)
 app.include_router(goals_router)
+app.include_router(analytics_router)
 
 
 @app.get("/health")

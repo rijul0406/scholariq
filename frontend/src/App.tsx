@@ -3,6 +3,7 @@ import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { GoalsPage } from './pages/GoalsPage'
+import { AnalyticsPage } from './pages/AnalyticsPage'
 import { ProtectedRoute } from './components/ProtectedRoute'
 
 // The URL -> page map. <Routes> renders whichever <Route> matches the URL.
@@ -26,6 +27,14 @@ function App() {
         element={
           <ProtectedRoute>
             <GoalsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/analytics"
+        element={
+          <ProtectedRoute>
+            <AnalyticsPage />
           </ProtectedRoute>
         }
       />
